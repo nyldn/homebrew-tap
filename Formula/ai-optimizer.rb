@@ -1,8 +1,8 @@
 class AiOptimizer < Formula
   desc "macOS health and maintenance CLI for AI coding environments"
   homepage "https://github.com/nyldn/ai-optimizer"
-  url "https://github.com/nyldn/ai-optimizer/releases/download/v0.1.2/ai-optimizer-0.1.2.tar.gz"
-  sha256 "b079e13154f364fe89d61aecea744515d0c63cfab9241c757da543f20528d13f"
+  url "https://github.com/nyldn/ai-optimizer/releases/download/v0.1.3/ai-optimizer-0.1.3.tar.gz"
+  sha256 "4e145a5e3b419ab7f093e93715c37fe63ba981f8e987eb0ddb1f46b4a183b403"
   license "MIT"
 
   depends_on macos: :ventura
