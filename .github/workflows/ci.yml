@@ -1,0 +1,31 @@
+name: Formula CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        runner:
+          - macos-15
+          - macos-15-intel
+    name: brew test ${{ matrix.runner }}
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - name: Check out tap
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Install and test formula
+        run: |
+          brew tap nyldn/tap "$GITHUB_WORKSPACE"
+          brew audit --strict --online nyldn/tap/ai-optimizer
+          brew install nyldn/tap/ai-optimizer
+          brew test nyldn/tap/ai-optimizer
