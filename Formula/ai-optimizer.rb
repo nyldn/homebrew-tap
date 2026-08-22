@@ -11,7 +11,7 @@ class AiOptimizer < Formula
   def install
     inreplace "bin/ai-optimizer",
               "#!/usr/bin/env ruby",
-              "#!#{Formula["ruby"].opt_bin}/ruby"
+              "#!#{formula_opt_bin("ruby")}/ruby"
     bin.install "bin/ai-optimizer"
     lib.install "lib/ai_optimizer.rb", "lib/ai_optimizer"
     prefix.install "VERSION"
