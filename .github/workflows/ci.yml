@@ -26,10 +26,12 @@ jobs:
       - name: Install and test formula
         run: |
           brew tap nyldn/tap "$GITHUB_WORKSPACE"
-          brew audit --strict --online nyldn/tap/ai-optimizer
+          brew trust --formula nyldn/tap/ai-env-optimizer
+          brew audit --strict --online nyldn/tap/ai-env-optimizer
           brew install nyldn/tap/ai-optimizer
-          brew test nyldn/tap/ai-optimizer
-          brew services info nyldn/tap/ai-optimizer --json | ruby -rjson -e '
+          test "$(brew list --formula | grep -c '^ai-env-optimizer$')" -eq 1
+          brew test nyldn/tap/ai-env-optimizer
+          brew services info nyldn/tap/ai-env-optimizer --json | ruby -rjson -e '
             service = JSON.parse($stdin.read).fetch(0)
             abort "formula service is not schedulable" unless service.fetch("schedulable")
             abort "service was started during CI" if service.fetch("running") || service.fetch("loaded")
