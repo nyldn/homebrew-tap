@@ -17,10 +17,28 @@ class AiOptimizer < Formula
     prefix.install "VERSION"
   end
 
+  service do
+    run [opt_bin/"ai-optimizer", "run-maintenance"]
+    run_type :cron
+    cron "30 19 * * *"
+    run_at_load false
+    process_type :background
+  end
+
   test do
     assert_match "ai-optimizer #{version}", shell_output("#{bin}/ai-optimizer version")
     output = shell_output("#{bin}/ai-optimizer doctor --json")
     assert_match '"product":"ai-optimizer"', output
     assert_match '"schema_version":1', output
+
+    service_plist = service.to_plist
+    command_pattern = %r{
+      <string>#{Regexp.escape(opt_bin.to_s)}/ai-optimizer</string>\s*
+      <string>run-maintenance</string>
+    }x
+    assert_match command_pattern, service_plist
+    assert_match %r{<key>RunAtLoad</key>\s*<false/>}, service_plist
+    assert_match %r{<key>Hour</key>\s*<integer>19</integer>}, service_plist
+    assert_match %r{<key>Minute</key>\s*<integer>30</integer>}, service_plist
   end
 end
