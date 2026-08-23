@@ -29,3 +29,8 @@ jobs:
           brew audit --strict --online nyldn/tap/ai-optimizer
           brew install nyldn/tap/ai-optimizer
           brew test nyldn/tap/ai-optimizer
+          brew services info nyldn/tap/ai-optimizer --json | ruby -rjson -e '
+            service = JSON.parse($stdin.read).fetch(0)
+            abort "formula service is not schedulable" unless service.fetch("schedulable")
+            abort "service was started during CI" if service.fetch("running") || service.fetch("loaded")
+          '
