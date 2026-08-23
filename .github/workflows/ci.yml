@@ -26,6 +26,7 @@ jobs:
       - name: Install and test formula
         run: |
           brew tap nyldn/tap "$GITHUB_WORKSPACE"
+          brew trust --formula nyldn/tap/ai-env-optimizer
           brew audit --strict --online nyldn/tap/ai-env-optimizer
           brew install nyldn/tap/ai-optimizer
           test "$(brew list --formula | grep -c '^ai-env-optimizer$')" -eq 1
