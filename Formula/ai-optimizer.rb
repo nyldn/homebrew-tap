@@ -1,8 +1,8 @@
 class AiOptimizer < Formula
   desc "macOS health and maintenance CLI for AI coding environments"
   homepage "https://github.com/nyldn/ai-optimizer"
-  url "https://github.com/nyldn/ai-optimizer/releases/download/v0.1.7/ai-optimizer-0.1.7.tar.gz"
-  sha256 "5ddb5390cc49ba770cdb4f22e1d43ba328fe18e01132a0fcf9ef9a33d56eb539"
+  url "https://github.com/nyldn/ai-optimizer/releases/download/v0.1.8/ai-optimizer-0.1.8.tar.gz"
+  sha256 "20f2ec3d2a633b79587bcc429b36c177ccd829f0a4a54f0fa22c12599b0306aa"
   license "MIT"
 
   depends_on macos: :ventura
@@ -30,6 +30,10 @@ class AiOptimizer < Formula
     output = shell_output("#{bin}/ai-optimizer doctor --json")
     assert_match '"product":"ai-optimizer"', output
     assert_match '"schema_version":1', output
+
+    agent_output = shell_output("#{bin}/ai-optimizer agent-context --json --workspace-root #{testpath}")
+    assert_match '"mode":"read_only_advisor"', agent_output
+    assert_match '"prioritized_actions":', agent_output
 
     service_plist = service.to_plist
     command_pattern = %r{
