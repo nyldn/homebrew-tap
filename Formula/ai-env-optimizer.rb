@@ -1,8 +1,8 @@
 class AiEnvOptimizer < Formula
   desc "macOS health and maintenance CLI for AI coding environments"
   homepage "https://github.com/nyldn/ai-env-optimizer"
-  url "https://github.com/nyldn/ai-env-optimizer/releases/download/v0.2.0/ai-env-optimizer-0.2.0.tar.gz"
-  sha256 "e5eca4023348dc467292d76e14e0ac93d173dc1492191f55f1b435b0b2171636"
+  url "https://github.com/nyldn/ai-env-optimizer/releases/download/v0.3.0/ai-env-optimizer-0.3.0.tar.gz"
+  sha256 "40750ea629052b8e9b9ce367c5029d1d04b846f25b2460adba6ec7e3e563aaee"
   license "MIT"
 
   depends_on macos: :ventura
@@ -34,6 +34,8 @@ class AiEnvOptimizer < Formula
     assert_match '"product":"ai-env-optimizer"', output
     assert_match '"legacy_names":["ai-optimizer"]', output
     assert_match '"schema_version":1', output
+    assert_match '"id":"desktop.claude.present"', output
+    assert_match '"id":"desktop.codex.present"', output
 
     agent_output = shell_output("#{bin}/ai-env-optimizer agent-context --json --workspace-root #{testpath}")
     assert_match '"mode":"read_only_advisor"', agent_output
